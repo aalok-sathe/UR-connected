@@ -5,6 +5,7 @@ import pickle
 from cmd import Cmd
 import tkinter as tk
 
+
 class FacilitiesForum(tk.Frame):
     
     request_queue = []
@@ -12,7 +13,13 @@ class FacilitiesForum(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
-               
+        
+        self.pack()
+        
+        self.button = tk.Button(self,
+                         text="QUIT", fg="red",
+                         command=self.quit)
+        self.button.pack(side=tk.LEFT)
         
 if __name__ == '__main__':
     root = tk.Tk()
