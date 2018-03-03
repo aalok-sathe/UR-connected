@@ -1,6 +1,8 @@
 #! /bin/env/ python3
 
 from event import Event
+from user import User
+
 import pickle
 from cmd import Cmd
 import tkinter as tk
@@ -12,7 +14,7 @@ class FacilitiesForum(tk.Frame):
     
     event_queue = list() # of events
     users_db = dict()
-    current_user_name = None
+    current_user = None
     
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
@@ -21,6 +23,7 @@ class FacilitiesForum(tk.Frame):
         
         # Load users database if it exists
         if Path("db/UR_connected_users_db").is_file():
+            print("Reading data")
             data = pickle.load(open("db/UR_connected_users_db", "rb"))
             self.event_queue = data.get("events",list())
             self.users_db = data.get("users", dict())
@@ -57,6 +60,7 @@ class FacilitiesForum(tk.Frame):
         #somestring = t.get('1.0', END)
     
     def create_event(self):
+        
         pass
         
     def get_event_by_name(self, name):
@@ -66,24 +70,22 @@ class FacilitiesForum(tk.Frame):
         pass
     
     def login(self, username, password):
-        hashstr = hash(str(username)+str(hash(password)))
+        hashstr = (str(username)+str((password)))
         try:
             if self.users_db[username] == hashstr:
                 self.current_user_name = username
                 self.text.delete('1.0', END)
-                self.text.insert('1.0', "Login successful. %s"%str(username))
+                self.text.insert('1.0', "Login successful. %s" % str(username))
+                self.current_user = User(str(username))
+                self.pword_box.delete(0, tk.END)
                 
-                self.pword_box = tk.Button(self,
-                                text="Logout", fg="black",
-                                command= lambda: self.logout())
-        self.quit_button.pack(side=tk.LEFT)
-                        
+                
             else:
-                self.text.delete('1.0', END)
-                self.text.insert('1.0', "Invalid login credentials. Try again or create new user.")
+                #self.text.delete('1.0', END)
+                self.text.insert('1.0', "Invalid login credentials. Try again or create new user.\n")
         except:
-            self.text.delete('1.0', END)
-            self.text.insert('1.0', "Invalid login credentials. Try again or create new user.")
+            #self.text.delete('1.0', END)
+            self.text.insert('1.0', "Invalid login credentials. Try again or create new user.\n")
         
     def logout(self):
         print("Logout successful. Exiting.")
@@ -93,7 +95,7 @@ class FacilitiesForum(tk.Frame):
         self.text.delete('1.0', END)
         self.text.insert('1.0', "Created new user: %s"%user_name)
         
-        self.users_db[user_name] = hash(str(user_name)+str(hash(user_pwd)))
+        self.users_db[user_name] = (str(user_name)+str((user_pwd)))
         
         print(self.users_db)
         
