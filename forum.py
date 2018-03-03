@@ -1,28 +1,38 @@
 #! /bin/env/ python3
 
-from request import Request
+from event import Event
 import pickle
 from cmd import Cmd
 import tkinter as tk
-
-from pyjamas import Window
-from pyjamas.ui import RootPanel, Button
 
 
 class FacilitiesForum(tk.Frame):
     
     request_queue = []
+    users_db = {}
+    user_name = None
     
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
-        
-        self.pack()
+        self.pack(fill=tk.BOTH)
         
         self.quit_button = tk.Button(self,
                          text="QUIT", fg="red",
-                         command=self.quit)
-        self.quit_button.pack()#side=tk.LEFT)
+                         command= lambda: self.quit()
+                         )
+        self.quit_button.pack(side=tk.LEFT)
+        
+    def login(self, username, password):
+        hashstr = hash(str(username)+str(hash(password)))
+        return users_db[username] == hashstr  
+        
+    def logout(self):
+        print("Logout successful. Exiting.")
+        raise SystemExit
+    
+    def create_user(self):
+        pass
         
 if __name__ == '__main__':
     root = tk.Tk()
