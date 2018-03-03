@@ -20,10 +20,10 @@ class FacilitiesForum(tk.Frame):
         self.pack(fill=tk.BOTH)
         
         # Load users database if it exists
-        if Path("UR_connected_users_db").is_file():
-            data = pickle.load(open("UR_connected_users_db", "rb"))
-            self.event_queue = data["events"]
-            self.users_db = data["users"]
+        if Path("db/UR_connected_users_db").is_file():
+            data = pickle.load(open("db/UR_connected_users_db", "rb"))
+            self.event_queue = data.get("events",list())
+            self.users_db = data.get("users", dict())
         
         self.quit_button = tk.Button(self,
                          text="Exit", fg="red",
@@ -44,11 +44,11 @@ class FacilitiesForum(tk.Frame):
                 
         self.uname_box = tk.Entry()
         self.uname_box.pack(side=tk.TOP)
-        self.uname_box.insert(0, "enter username")
+        self.uname_box.insert(0, "username")
     
         self.pword_box = tk.Entry()
         self.pword_box.pack(side=tk.TOP)
-        self.pword_box.insert(0, "enter password")
+        self.pword_box.insert(0, "password")
     
         self.text = Text()
         self.text.pack()
@@ -68,27 +68,37 @@ class FacilitiesForum(tk.Frame):
     def login(self, username, password):
         hashstr = hash(str(username)+str(hash(password)))
         try:
-            if (users_db[username] == hashstr):
+            if self.users_db[username] == hashstr:
                 self.current_user_name = username
                 self.text.delete('1.0', END)
                 self.text.insert('1.0', "Login successful. %s"%str(username))
+            else:
+                self.text.delete('1.0', END)
+                self.text.insert('1.0', "Invalid login credentials. Try again or create new user.")
         except:
             self.text.delete('1.0', END)
-            self.text.insert('1.0', "Invalid login credentials.")
+            self.text.insert('1.0', "Invalid login credentials. Try again or create new user.")
         
     def logout(self):
         print("Logout successful. Exiting.")
         raise SystemExit
     
     def create_user(self, user_name = "Dummy user", user_pwd = "*****"):
+        self.text.delete('1.0', END)
+        self.text.insert('1.0', "Created new user: %s"%user_name)
+        
         self.users_db[user_name] = hash(str(user_name)+str(hash(user_pwd)))
-        pickle.dump(self.users_db, open("UR_connected_users_db", "wb"))
+        
+        print(self.users_db)
+        
+        self.data_dump()
         
     def data_dump(self):
         data = dict()
         data["events"] = self.event_queue
         data["users"] = self.users_db
-        pickle.dump(data, open("UR_connected_users_db", "wb"))
+        with open("db/UR_connected_users_db", "wb") as f:
+            pickle.dump(data, f)
         
 if __name__ == '__main__':
     root = tk.Tk()
