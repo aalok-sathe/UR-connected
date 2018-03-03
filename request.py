@@ -4,6 +4,8 @@ class Request:
 
     keywords = list()
     timestamp = None
+    message = ""
+    location = ""
   
   def __init__(self, stringMessage):
     self.message = stringMessage
