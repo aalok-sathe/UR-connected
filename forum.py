@@ -7,9 +7,11 @@ from tkinter import *
 class FacilitiesForum(Cmd):
     
     request_queue = []
-     
+    gui = None
+    
     def __init__(self):
-            
+        gui = Tk()
+        gui.Show(True)
                
         
 if __name__ == '__main__':

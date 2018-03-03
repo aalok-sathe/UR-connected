@@ -1,14 +1,13 @@
 import time
 
-
-
 class Request:
 
-  message = ""
-  location = ""
   keywords = list()
   timestamp = None
   seconds = None
+  message = ""
+  location = ""
+  
   
   def __init__(self, stringMessage, stringLocation):
     self.message = stringMessage
