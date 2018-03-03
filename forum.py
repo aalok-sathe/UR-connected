@@ -1,9 +1,13 @@
 #! /bin/env/ python3
 
-#from request import Request
+from request import Request
 import pickle
 from cmd import Cmd
 import tkinter as tk
+
+from pyjamas import Window
+from pyjamas.ui import RootPanel, Button
+
 
 class FacilitiesForum(tk.Frame):
     
@@ -12,7 +16,13 @@ class FacilitiesForum(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
-               
+        
+        self.pack()
+        
+        self.quit_button = tk.Button(self,
+                         text="QUIT", fg="red",
+                         command=self.quit)
+        self.quit_button.pack()#side=tk.LEFT)
         
 if __name__ == '__main__':
     root = tk.Tk()
