@@ -9,5 +9,4 @@ class Request:
     self.message = stringMessage
 
     self.timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
-    
-    
+
