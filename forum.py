@@ -70,14 +70,16 @@ class FacilitiesForum(tk.Frame):
         pass
     
     def login(self, username, password):
-        hashstr = (str(username)+str((password)))
+        #hashstr = (str(username)+str((password)))
         try:
-            if self.users_db[username] == hashstr:
+            if self.users_db[username] == password:
                 self.current_user_name = username
                 self.text.delete('1.0', END)
                 self.text.insert('1.0', "Login successful. %s" % str(username))
+                
                 self.current_user = User(str(username))
-                self.pword_box.delete(0, tk.END)
+                self.pword_box.widget.pack_forget()
+                self.new_user_button.widget.pack_forget()
                 
                 self.show_forum()
                 
@@ -99,7 +101,7 @@ class FacilitiesForum(tk.Frame):
         self.text.delete('1.0', END)
         self.text.insert('1.0', "Created new user: %s"%user_name)
         
-        self.users_db[user_name] = (str(user_name)+str((user_pwd)))
+        self.users_db[user_name] = user_pwd
         
         print(self.users_db)
         
