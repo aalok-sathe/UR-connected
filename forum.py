@@ -5,6 +5,9 @@ import pickle
 from cmd import Cmd
 import tkinter as tk
 
+from pyjamas import Window
+from pyjamas.ui import RootPanel, Button
+
 
 class FacilitiesForum(tk.Frame):
     
