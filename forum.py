@@ -10,7 +10,7 @@ from pathlib import Path
 
 class FacilitiesForum(tk.Frame):
     
-    event_queue = list()
+    event_queue = list() # of events
     users_db = dict()
     current_user_name = None
     
@@ -21,14 +21,26 @@ class FacilitiesForum(tk.Frame):
         
         # Load users database if it exists
         if Path("UR_connected_users_db").is_file():
-            self.users_db = pickle.load(open("UR_connected_users_db", "rb"))
+            data = pickle.load(open("UR_connected_users_db", "rb"))
+            self.event_queue = data["events"]
+            self.users_db = data["users"]
         
         self.quit_button = tk.Button(self,
                          text="Exit", fg="red",
                          command= lambda: self.quit())
         self.quit_button.pack(side=tk.LEFT)
     
-        self.bind("<Key>", self.key)
+        self.login_button = tk.Button(self,
+                         text="Login", fg="black",
+                         command= lambda: self.login(self.uname_box.get(),self.pword_box.get()))
+        self.login_button.pack(side=tk.LEFT)
+        
+        self.new_user_button = tk.Button(self,
+                         text="Create user", fg="black",
+                         command= lambda: self.create_user(self.uname_box.get(),self.pword_box.get()))
+        self.new_user_button.pack(side=tk.LEFT)
+    
+        #self.bind("<Key>", self.key)
                 
         self.uname_box = tk.Entry()
         self.uname_box.pack(side=tk.TOP)
@@ -38,24 +50,28 @@ class FacilitiesForum(tk.Frame):
         self.pword_box.pack(side=tk.TOP)
         self.pword_box.insert(0, "enter password")
     
-        self.login_button = tk.Button(self,
-                         text="Login", fg="black",
-                         command= lambda: self.login(self.uname_box.get(),self.pword_box.get()))
-        self.login_button.pack(side=tk.LEFT)     
-
         self.text = Text()
         self.text.pack()
         self.text.delete('1.0', END)             # clear the widget's contents
         #self.text.insert(END, "astring")           # append astring to the widget's contents
         #somestring = t.get('1.0', END)
     
-    def key(self, event):
-        print ("pressed", repr(event.char))
+    def create_event(self):
+        pass
+        
+    def get_event_by_name(self, name):
+        pass
+    
+    def upvote_event(self, event_object):
+        pass
     
     def login(self, username, password):
         hashstr = hash(str(username)+str(hash(password)))
         try:
-            return users_db[username] == hashstr  
+            if (users_db[username] == hashstr):
+                self.current_user_name = username
+                self.text.delete('1.0', END)
+                self.text.insert('1.0', "Login successful. %s"%str(username))
         except:
             self.text.delete('1.0', END)
             self.text.insert('1.0', "Invalid login credentials.")
@@ -64,13 +80,15 @@ class FacilitiesForum(tk.Frame):
         print("Logout successful. Exiting.")
         raise SystemExit
     
-    def create_user(self):
-        user_name = "Dummy user"
-        user_pwd = "*****"
-        
+    def create_user(self, user_name = "Dummy user", user_pwd = "*****"):
         self.users_db[user_name] = hash(str(user_name)+str(hash(user_pwd)))
-        
         pickle.dump(self.users_db, open("UR_connected_users_db", "wb"))
+        
+    def data_dump(self):
+        data = dict()
+        data["events"] = self.event_queue
+        data["users"] = self.users_db
+        pickle.dump(data, open("UR_connected_users_db", "wb"))
         
 if __name__ == '__main__':
     root = tk.Tk()
