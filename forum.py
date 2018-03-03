@@ -4,18 +4,23 @@ from event import Event
 import pickle
 from cmd import Cmd
 import tkinter as tk
+from pathlib import Path
 
 
 class FacilitiesForum(tk.Frame):
     
-    request_queue = []
-    users_db = {}
-    user_name = None
+    request_queue = list()
+    users_db = dict()
+    current_user_name = None
     
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
         self.pack(fill=tk.BOTH)
+        
+        # Load users database if it exists
+        if Path("UR_connected_users_db").is_file():
+            self.users_db = pickle.load(open("UR_connected_users_db", "rb"))
         
         self.quit_button = tk.Button(self,
                          text="QUIT", fg="red",
@@ -32,7 +37,12 @@ class FacilitiesForum(tk.Frame):
         raise SystemExit
     
     def create_user(self):
-        pass
+        user_name = "Dummy user"
+        user_pwd = "*****"
+        
+        self.users_db[user_name] = hash(str(user_name)+str(hash(user_pwd)))
+        
+        pickle.dump(self.users_db, open("UR_connected_users_db", "wb"))
         
 if __name__ == '__main__':
     root = tk.Tk()
