@@ -27,24 +27,31 @@ class FacilitiesForum(tk.Frame):
                          command= lambda: self.quit())
         self.quit_button.pack(side=tk.LEFT)
     
-        self.bind("<Key>", self.key)
+        #self.bind("<Key>", self.key)
         
         self.uname_box = tk.Entry()
         self.uname_box.pack(side=tk.TOP)
         self.uname_box.insert(0, "enter username")
     
+        self.pword_box = tk.Entry()
+        self.pword_box.pack(side=tk.TOP)
+        self.pword_box.insert(0, "enter password")
+    
         self.login_button = tk.Button(self,
                          text="Login", fg="black",
-                         command= lambda u,p: self.login(u,p))
-        self.login_button.pack(side=tk.LEFT)         
+                         command= lambda: self.login(self.uname_box.get(),self.pword_box.get()))
+        self.login_button.pack(side=tk.LEFT)       
     
     
-    def key(self, event):
-        print ("pressed", repr(event.char))
+    #def key(self, event):
+    #    print ("pressed", repr(event.char))
     
     def login(self, username, password):
         hashstr = hash(str(username)+str(hash(password)))
-        return users_db[username] == hashstr  
+        try:
+            return users_db[username] == hashstr  
+        except:
+            print("Invalid authentication.")
         
     def logout(self):
         print("Logout successful. Exiting.")
