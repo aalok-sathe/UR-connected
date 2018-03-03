@@ -13,7 +13,6 @@ class FacilitiesForum(Cmd):
         
     
         
-        
 if __name__ == '__main__':
     prompt = FacilitiesForum("")
     prompt.prompt = ':: '
