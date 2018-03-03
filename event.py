@@ -16,7 +16,7 @@ class Event:
     thumbs_down_users = set()
     expiry = None
   
-    def __init__(self, title=None, body=None, location=None, user=None, keywords_dict=None):
+    def __init__(self, id=None, title=None, body=None, location=None, user=None, keywords_dict=None):
         self.title = str(title)
         self.body = str(body)
         self.location = str(location)
@@ -24,6 +24,11 @@ class Event:
         self.timestamp = datetime.datetime.fromtimestamp(self.seconds).strftime('%Y-%m-%d %H:%M:%S')
     
         #self.read_data(event_name=self.title)
+    def get_num_upvotes(self):
+        return len(self.thumbs_up_users)
+    
+    def get_num_downvotes(self):
+        return len(self.thumbs_up_users)
     
     def thumb_up(self, user_name):
         self.thumbs_up_users.add(user_name)

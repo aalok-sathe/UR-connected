@@ -72,6 +72,12 @@ class FacilitiesForum(tk.Frame):
                 self.current_user_name = username
                 self.text.delete('1.0', END)
                 self.text.insert('1.0', "Login successful. %s"%str(username))
+                
+                self.pword_box = tk.Button(self,
+                                text="Logout", fg="black",
+                                command= lambda: self.logout())
+        self.quit_button.pack(side=tk.LEFT)
+                        
             else:
                 self.text.delete('1.0', END)
                 self.text.insert('1.0', "Invalid login credentials. Try again or create new user.")
