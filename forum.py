@@ -79,6 +79,7 @@ class FacilitiesForum(tk.Frame):
                 self.current_user = User(str(username))
                 self.pword_box.delete(0, tk.END)
                 
+                self.show_forum()
                 
             else:
                 #self.text.delete('1.0', END)
@@ -86,7 +87,10 @@ class FacilitiesForum(tk.Frame):
         except:
             #self.text.delete('1.0', END)
             self.text.insert('1.0', "Invalid login credentials. Try again or create new user.\n")
-        
+    
+    def show_forum(self):
+        w = Frame ( root )
+    
     def logout(self):
         print("Logout successful. Exiting.")
         raise SystemExit
