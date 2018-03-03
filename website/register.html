@@ -3,14 +3,17 @@
 <h1>
 	Register
 </h1>
-<form>
-	First name:<br>
-	<input type="text" name="firstname"><br>
-	Last name:<br>
-	<input type="text" name="lastname"><br>
-	Email:<br>
-	<input type="text" name="email"><br>
-	Password:<br>
-	<input type="text" name="password"><br>
+<form action="{{url_for('register')}}" method = "POST">
+	<fieldset>
+		First name:<br>
+		<input type="text" name="firstname"><br>
+		Last name:<br>
+		<input type="text" name="lastname"><br>
+		Email:<br>
+		<input type="text" name="email"><br>
+		Password:<br>
+		<input type="text" name="password"><br>
+		<input type="submit" value="Submit">
+	</fieldset>
 </form>
 </html>
