@@ -29,14 +29,20 @@ class FacilitiesForum(tk.Frame):
     
         self.bind("<Key>", self.key)
         
+        self.potential_message=tk.Text()
+        
         self.uname_box = tk.Entry()
         self.uname_box.pack(side=tk.TOP)
         self.uname_box.insert(0, "enter username")
     
+        self.pword_box = tk.Entry()
+        self.pword_box.pack(side=tk.TOP)
+        self.pword_box.insert(0, "enter password")
+    
         self.login_button = tk.Button(self,
                          text="Login", fg="black",
-                         command= lambda u,p: self.login(u,p))
-        self.login_button.pack(side=tk.LEFT)         
+                         command= lambda: self.login(self.uname_box.get(),self.pword_box.get()))
+        self.login_button.pack(side=tk.LEFT)       
     
     
     def key(self, event):
@@ -44,7 +50,11 @@ class FacilitiesForum(tk.Frame):
     
     def login(self, username, password):
         hashstr = hash(str(username)+str(hash(password)))
-        return users_db[username] == hashstr  
+        try:
+            return users_db[username] == hashstr  
+        except:
+            self.potential_message.delete(0, END)
+            self.potential_message.insert(tk.END, "Invalid authentication.")
         
     def logout(self):
         print("Logout successful. Exiting.")
