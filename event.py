@@ -1,13 +1,12 @@
 import time
 
-class Request:
+class Event: 
 
-  keywords = list()
-  timestamp = None
-  seconds = None
-  message = ""
-  location = ""
-  
+    keywords = list()
+    timestamp = None
+    seconds = None
+    message = ""
+    location = ""
   
     def __init__(self, stringMessage, stringLocation):
         self.message = stringMessage
