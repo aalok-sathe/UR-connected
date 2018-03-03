@@ -10,11 +10,14 @@ def main():
 @app.route("/register.html", methods=["GET", "POST"])
 def register():
 	#Register user - puts data in users.csv
-	if request.method == "POST     ":
-		main()
-		users = open("users.csv", a)
-		users.write(session["email"], session["password"])
-		Home()
+	if request.method == "POST":
+		users = open("users.csv", "a")
+		passwords = open("passwords.csv", "a")
+		users.write(request.form.get("email"))
+		passwords.write(request.form.get("password"))
+		users.close()
+		passwords.close()
+		return Home()
 	else:
 		return render_template('register.html')
 
