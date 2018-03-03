@@ -31,12 +31,12 @@ class FacilitiesForum(tk.Frame):
         self.quit_button = tk.Button(self,
                          text="Exit", fg="red",
                          command= lambda: self.quit())
-        self.quit_button.pack(side=tk.LEFT)
+        self.quit_button.grid(side=tk.LEFT)
     
         self.login_button = tk.Button(self,
                          text="Login", fg="black",
                          command= lambda: self.login(self.uname_box.get(),self.pword_box.get()))
-        self.login_button.pack(side=tk.LEFT)
+        self.login_button.grid(side=tk.LEFT)
         
         self.new_user_button = tk.Button(self,
                          text="Create user", fg="black",
@@ -48,17 +48,17 @@ class FacilitiesForum(tk.Frame):
         self.uname_box = tk.Entry()
         self.uname_box.pack(side=tk.TOP)
         self.uname_box.insert(0, "username")
+        self.uname_box.bind("<Button-1>", lambda super: self.uname_box.delete(0, tk.END))
     
         self.pword_box = tk.Entry()
         self.pword_box.pack(side=tk.TOP)
         self.pword_box.insert(0, "password")
+        self.pword_box.bind("<Button-1>", lambda super: self.pword_box.delete(0, tk.END))
     
         self.text = Text()
         self.text.pack()
         self.text.delete('1.0', END)             # clear the widget's contents
-        #self.text.insert(END, "astring")           # append astring to the widget's contents
-        #somestring = t.get('1.0', END)
-    
+        
     def create_event(self):
         
         pass
@@ -72,27 +72,48 @@ class FacilitiesForum(tk.Frame):
     def login(self, username, password):
         #hashstr = (str(username)+str((password)))
         try:
+            print(self.users_db)
             if self.users_db[username] == password:
                 self.current_user_name = username
                 self.text.delete('1.0', END)
                 self.text.insert('1.0', "Login successful. %s" % str(username))
                 
                 self.current_user = User(str(username))
-                self.pword_box.widget.pack_forget()
-                self.new_user_button.widget.pack_forget()
+                
+                self.pword_box.destroy()
+                self.uname_box.destroy()
+                self.text.destroy()
+                
+                self.pword_box = tk.Button(self,
+                         text="Logout", fg="red",
+                         command= lambda: self.logout()).grid()
+                
+                self.grid()
                 
                 self.show_forum()
                 
             else:
-                #self.text.delete('1.0', END)
+                self.text.delete('1.0', END)
                 self.text.insert('1.0', "Invalid login credentials. Try again or create new user.\n")
         except:
-            #self.text.delete('1.0', END)
+            self.text.delete('1.0', END)
             self.text.insert('1.0', "Invalid login credentials. Try again or create new user.\n")
     
     def show_forum(self):
-        w = Frame ( root )
-    
+        
+        self.create_button = tk.Button(self,
+                         text="Create event", fg="black",
+                         command= lambda: self.create()).grid(row=1)#side=tk.BOTTOM)
+        
+        #self.forum = Frame(self.parent)
+        #self.forum.pack(fill=tk.BOTH)
+      
+    def update_list(self, listbox):
+        listbox.destroy()
+        for item in self.events_queue:
+            listbox.insert(END, item)
+        listbox.grid()        
+        
     def logout(self):
         print("Logout successful. Exiting.")
         raise SystemExit
