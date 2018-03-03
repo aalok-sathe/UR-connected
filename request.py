@@ -10,4 +10,4 @@ class Request:
   def __init__(self, stringMessage):
     self.message = stringMessage
 
-    timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+    self.timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
