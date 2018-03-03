@@ -9,7 +9,7 @@ from pathlib import Path
 
 class FacilitiesForum(tk.Frame):
     
-    request_queue = list()
+    event_queue = list()
     users_db = dict()
     current_user_name = None
     
@@ -23,11 +23,25 @@ class FacilitiesForum(tk.Frame):
             self.users_db = pickle.load(open("UR_connected_users_db", "rb"))
         
         self.quit_button = tk.Button(self,
-                         text="QUIT", fg="red",
-                         command= lambda: self.quit()
-                         )
+                         text="Exit", fg="red",
+                         command= lambda: self.quit())
         self.quit_button.pack(side=tk.LEFT)
+    
+        self.bind("<Key>", self.key)
         
+        self.uname_box = tk.Entry()
+        self.uname_box.pack(side=tk.TOP)
+        self.uname_box.insert(0, "enter username")
+    
+        self.login_button = tk.Button(self,
+                         text="Login", fg="black",
+                         command= lambda u,p: self.login(u,p))
+        self.login_button.pack(side=tk.LEFT)         
+    
+    
+    def key(self, event):
+        print ("pressed", repr(event.char))
+    
     def login(self, username, password):
         hashstr = hash(str(username)+str(hash(password)))
         return users_db[username] == hashstr  
