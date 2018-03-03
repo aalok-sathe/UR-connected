@@ -4,6 +4,7 @@ from event import Event
 import pickle
 from cmd import Cmd
 import tkinter as tk
+from tkinter import *
 from pathlib import Path
 
 
@@ -28,9 +29,7 @@ class FacilitiesForum(tk.Frame):
         self.quit_button.pack(side=tk.LEFT)
     
         self.bind("<Key>", self.key)
-        
-        self.potential_message=tk.Text()
-        
+                
         self.uname_box = tk.Entry()
         self.uname_box.pack(side=tk.TOP)
         self.uname_box.insert(0, "enter username")
@@ -42,8 +41,13 @@ class FacilitiesForum(tk.Frame):
         self.login_button = tk.Button(self,
                          text="Login", fg="black",
                          command= lambda: self.login(self.uname_box.get(),self.pword_box.get()))
-        self.login_button.pack(side=tk.LEFT)       
-    
+        self.login_button.pack(side=tk.LEFT)     
+
+        self.text = Text()
+        self.text.pack()
+        self.text.delete('1.0', END)             # clear the widget's contents
+        #self.text.insert(END, "astring")           # append astring to the widget's contents
+        #somestring = t.get('1.0', END)
     
     def key(self, event):
         print ("pressed", repr(event.char))
@@ -53,8 +57,8 @@ class FacilitiesForum(tk.Frame):
         try:
             return users_db[username] == hashstr  
         except:
-            self.potential_message.delete(0, END)
-            self.potential_message.insert(tk.END, "Invalid authentication.")
+            self.text.delete('1.0', END)
+            self.text.insert('1.0', "Invalid login credentials.")
         
     def logout(self):
         print("Logout successful. Exiting.")
