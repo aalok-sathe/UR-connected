@@ -1,6 +1,6 @@
 #! /bin/env/ python3
 
-#from request import Request
+from request import Request
 import pickle
 from cmd import Cmd
 import tkinter as tk
@@ -16,10 +16,10 @@ class FacilitiesForum(tk.Frame):
         
         self.pack()
         
-        self.button = tk.Button(self,
+        self.quit_button = tk.Button(self,
                          text="QUIT", fg="red",
                          command=self.quit)
-        self.button.pack(side=tk.LEFT)
+        self.quit_button.pack()#side=tk.LEFT)
         
 if __name__ == '__main__':
     root = tk.Tk()
