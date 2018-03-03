@@ -1,6 +1,6 @@
 import time
 
-class Request: 
+class Event: 
 
     keywords = list()
     timestamp = None
