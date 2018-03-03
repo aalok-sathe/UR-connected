@@ -23,14 +23,14 @@ class Event:
         self.seconds = time.time()
         self.timestamp = datetime.datetime.fromtimestamp(self.seconds).strftime('%Y-%m-%d %H:%M:%S')
     
-        self.read_data(event_name=self.title)
+        #self.read_data(event_name=self.title)
     
-    def thumb_up(self, user_name)
+    def thumb_up(self, user_name):
         self.thumbs_up_users.add(user_name)
         self.thumbs_down_users.remove(user_name)
         self.dump_data()
         
-    def thumb_down(self, user_name)
+    def thumb_down(self, user_name):
         self.thumbs_down_users.add(user_name)
         self.thumbs_up_users.remove(user_name)
         self.dump_data()
@@ -40,10 +40,10 @@ class Event:
             data_dict = pickle.load(open("events_db/" + str(event_name), "rb"))
             self.thumbs_up_users = data_dict.get("thumbups")
             self.thumbs_down_users = data_dict.get("thumbdowns")
-            self.attendees = data_dict.get("attendees")
+            #self.attendees = data_dict.get("attendees")
             
-    def dump_data(self)
+    def dump_data(self):
             data_dict = dict()
             data_dict["thumbups"] = self.thumbs_up_users
-            data_dict
-        
+            data_dict["thumbdowns"] = self.thumbs_down_users
+            
