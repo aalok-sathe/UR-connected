@@ -28,11 +28,7 @@ def register():
 @app.route("/login.html", methods =["GET", "POST"])
 def login():
 		#Log user in with valid login credentials
-<<<<<<< HEAD
 	return ("You're logged in")
-=======
-	
->>>>>>> 4deec3cfae6ec98b003534edeb7a57fb4af912ea
 
 @app.route("/Home.html", methods = ["GET"])
 def Home():
