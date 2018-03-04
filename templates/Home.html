@@ -12,11 +12,33 @@
 		  <input type="text" placeholder="Search for threads">
 		  <a href="index.html" style="float: right;">Log out</a>
 		</div>
-		<div class ="main">
-			{%for info in top5%}
-			{{info}}
-			<br>
-			{% endfor %}
+		<div class="main">
+		<table class="table table-stripped">
+        <thead>
+            <tr>
+                <th> Name </th>
+                <th> Title </th>
+                <th> Message </th>
+                <th> Location </th>
+                <th> keywords </th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            {% for entry in top5 %}
+            <tr>
+                <td> {{entry[0]}} </td>
+                <td> {{entry[1]}} </td>
+                <td> {{entry[2]}} </td>
+                <td> ${{entry[3]}} </td>
+                <td> ${{entry[4]}} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+
+
+
 		</div>
 			
 	</body>
