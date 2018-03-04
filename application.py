@@ -28,11 +28,26 @@ def register():
 @app.route("/login.html", methods =["GET", "POST"])
 def login():
 		#Log user in with valid login credentials
+<<<<<<< HEAD
+	return ("You're logged in")
+=======
 	
+>>>>>>> 4deec3cfae6ec98b003534edeb7a57fb4af912ea
 
 @app.route("/Home.html", methods = ["GET"])
 def Home():
-	return render_template('Home.html')
+	info = open("d.csv","r")
+	txt = info.readlines()
+	info.close()
+	top5 = []
+
+	i = 0
+	while i < 5:
+		l = txt[i].split(',')
+		top5.append(l)
+		i+=1
+
+	return render_template('Home.html', top5 = top5)
 
 
 if __name__ == "__main__":
