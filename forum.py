@@ -94,7 +94,7 @@ class FacilitiesForum(tk.Frame):
         
         #print("!!!!!!!!!!!!!!!!!!!!!\n",len(self.event_queue), self.title_box.get(), self.body_box.get(), self.location_box.get(), self.current_user, self.keyword_box.get().split(','))
         
-        e = (len(self.event_queue), self.title_box.get(), self.body_box.get(), self.location_box.get(), self.current_user, self.keyword_box.get().split(','))
+        e = list((len(self.event_queue), self.title_box.get(), self.body_box.get(), self.location_box.get(), self.current_user,  self.keyword_box.get().split(',')))
         
         self.event_queue.append(e)
         self.submit_event.destroy()
@@ -109,14 +109,15 @@ class FacilitiesForum(tk.Frame):
     #def get_event_by_name(self, name):
     #    pass
     
-    def upvote_event(self, event_object):
-        pass
+    def upvote_event(self, event_object, user):
+        event_object.thumb_up(user)
+        self.update_list()
     
     def login(self, username, password):
         #hashstr = (str(username)+str((password)))
         try:
             print(self.users_db)
-            if True or self.users_db[username] == password:
+            if False or self.users_db[username] == password:
                 self.current_user_name = username
                 self.text.delete('1.0', END)
                 self.text.insert('1.0', "Login successful. %s" % str(username))
@@ -134,8 +135,8 @@ class FacilitiesForum(tk.Frame):
                 #         command= lambda: self.logout()).grid(row=0, column=3)
                 
                 #self.grid()
-                self.listbox = tk.Listbox()
-                
+                self.listbox = tk.Listbox(width=150)
+                self.listbox.bind("<Double-Button-1>", self.OnDouble)
                 self.show_forum()
                 
                 
@@ -146,6 +147,18 @@ class FacilitiesForum(tk.Frame):
             self.text.delete('1.0', END)
             self.text.insert('1.0', "Invalid login credentials. Try again or create new user.\n")
     
+    def OnDouble(self, event):
+        widget = event.widget
+        selection=widget.curselection()
+        value = widget.get(selection[0])
+        
+        #print ("!!!!!!!!!!!!!!!!!!\n", value)
+    
+        self.upvote_button = tk.Button(self,
+                         text="Upvote?", fg="blue",
+                         command= lambda: self.upvote_event(value, self.current_user))
+        self.upvote_button.grid(row=6, column=0)#side=tk.LEFT)
+    
     def show_forum(self):
         
         self.create_button = tk.Button(self,
@@ -153,7 +166,7 @@ class FacilitiesForum(tk.Frame):
                          command= lambda: self.create_event()).grid(row=2, column=0)#side=tk.BOTTOM)
         
         
-        self.listbox.grid(row=5,column=0)
+        self.listbox.grid(row=5,column=5)
         self.update_list(self)
         
         
@@ -162,10 +175,10 @@ class FacilitiesForum(tk.Frame):
         #self.forum.pack(fill=tk.BOTH)
       
     def update_list(self):
-        #self.listbox.destroy()
-        #for item in self.event_queue:
-        self.listbox.insert(tk.END, self.event_queue[-1])
-        self.listbox.grid(row=5,column=0)       
+        self.listbox.delete(0,tk.END)
+        for item in self.event_queue:
+            self.listbox.insert(tk.END, item)#self.event_queue[-1])
+        self.listbox.grid(row=5,column=5)
         
     def logout(self):
         print("Logout successful. Exiting.")

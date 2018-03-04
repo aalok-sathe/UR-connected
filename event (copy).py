@@ -1,16 +1,28 @@
-#! /bin/env/ python3
+import time
+import pickle
+from pathlib import Path
 
 class Event:
 
-    def __init__(self, identity, title, body, location, user, keywords_list):
-        self.identity = i
-        self.title = title
-        self.body = body
-        self.location = location
-        self.user = user
-        self.keywords = keywords_list
+    keywords = []
+    timestamp = None
+    seconds = None
+    body = None
+    title = None
+    location = None
+    identity = None
+    thumbs_up_users = set()
+    thumbs_down_users = set()
+    expiry = None
+
+    def __init__(self, **kwargs):#, identity, title, body, location, user, keywords_list):
         
+        self.identity = identity
+        self.title = str(title)
+        self.body = str(body)
+        self.location = str(location)
         self.seconds = time.time()
+        self.keywords = keywords_list
         self.timestamp = datetime.datetime.fromtimestamp(self.seconds).strftime('%Y-%m-%d %H:%M:%S')
 
     def get_num_upvotes(self):
