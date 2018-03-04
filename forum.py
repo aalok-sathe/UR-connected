@@ -152,7 +152,7 @@ class FacilitiesForum(tk.Frame):
         selection=widget.curselection()
         value = widget.get(selection[0])
         
-        print ("!!!!!!!!!!!!!!!!!!\n", value)
+        #print ("!!!!!!!!!!!!!!!!!!\n", value)
     
         self.upvote_button = tk.Button(self,
                          text="Upvote?", fg="blue",
