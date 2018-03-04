@@ -12,5 +12,12 @@
 		  <input type="text" placeholder="Search for threads">
 		  <a href="index.html" style="float: right;">Log out</a>
 		</div>
+		<div class ="main">
+			{%for info in top5%}
+			{{info}}
+			<br>
+			{% endfor %}
+		</div>
+			
 	</body>
 </html>
